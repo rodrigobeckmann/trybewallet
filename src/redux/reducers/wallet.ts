@@ -1,1 +1,10 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
+import { AnyAction } from 'redux';
+
+const INITIAL_STATE = {
+  total: 0,
+  currency: 'BRL',
+};
+
+export default (state = INITIAL_STATE, action: AnyAction) => {
+  return state;
+};

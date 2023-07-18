@@ -3,7 +3,7 @@ import { RootRedux } from '../types';
 
 function Header() {
   const { email } = useSelector((state: RootRedux) => state.user);
-  const { total, currency } = useSelector((state: RootRedux) => state.wallet);
+  const { total } = useSelector((state: RootRedux) => state.wallet);
 
   return (
     <header>
@@ -12,12 +12,10 @@ function Header() {
         {email}
       </h1>
       <h2 data-testid="total-field">
-        Depesa total:
         {total}
       </h2>
       <h2 data-testid="header-currency-field">
-        cambio utilizado:
-        {currency}
+        cambio utilizado: BRL
       </h2>
     </header>
   );

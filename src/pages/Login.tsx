@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { submitLogin } from '../redux/actions';
+import { submitLogin, fetchCurrency } from '../redux/actions';
+import { Dispatch } from '../types';
 
 const INITIAL_LOGIN = {
   email: '',
@@ -11,7 +12,7 @@ const INITIAL_LOGIN = {
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 function Login() {
-  const dispatch = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState(INITIAL_LOGIN);
@@ -32,6 +33,7 @@ function Login() {
   const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(submitLogin(loginData.email));
+    dispatch(fetchCurrency());
     navigate('/carteira');
   };
 

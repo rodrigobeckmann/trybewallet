@@ -20,11 +20,6 @@ const CURRENCY_INPUT = 'currency-input';
 const METHOD_INPUT = 'method-input';
 const TAG_INPUT = 'tag-input';
 
-const MOCK_RESPONSE = {
-  ok: true,
-  json: async () => mockData,
-} as Response;
-
 const INITIAL_STATE = {
   user: {
     email: LOGIN,
@@ -37,7 +32,9 @@ const INITIAL_STATE = {
   },
 };
 
-const mockFetch = vi.spyOn(global, 'fetch').mockResolvedValue(MOCK_RESPONSE);
+global.fetch = vi.fn().mockResolvedValue({
+  json: async () => (mockData),
+});
 
 const valueSpent = '50';
 const valueDescription = 'banana';
@@ -83,7 +80,7 @@ describe('Testa componente WalletForm', () => {
     expect(screen.getByTestId('email-field')).toHaveTextContent(`Usuario:${LOGIN}`);
     expect(screen.getByTestId('total-field')).toHaveTextContent('0.00');
     expect(screen.getByTestId('header-currency-field')).toHaveTextContent('cambio utilizado: BRL');
-    expect(mockFetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledTimes(1);
   });
 
   test('2- verificar se são renderizados os inputs corretos no formulario e se é possivel digitar valores neles', async () => {
@@ -92,7 +89,7 @@ describe('Testa componente WalletForm', () => {
     expect(screen.getByTestId('email-field')).toHaveTextContent(`Usuario:${LOGIN}`);
     expect(screen.getByTestId('total-field')).toHaveTextContent('0.00');
     expect(screen.getByTestId('header-currency-field')).toHaveTextContent('cambio utilizado: BRL');
-    expect(mockFetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledTimes(1);
 
     const valueInput = screen.getByTestId(VALUE_INPUT);
     const descriptionInput = screen.getByTestId(DESCRIPTION_INPUT);
@@ -133,4 +130,14 @@ test('3- verifica se ao clicar no botar adicionar, os valores dos inputs são ad
   await userEvent.click(sendBtn);
 
   expect(store.getState()).toStrictEqual(EXPECTED_STATE);
+});
+
+test('4- verifica se os inputs de select funcionam como esperado', async () => {
+  renderWithRouterAndRedux(<Wallet />, { initialState: INITIAL_STATE });
+
+  const currencyInput = screen.getByTestId(CURRENCY_INPUT);
+  const methodInput = screen.getByTestId(METHOD_INPUT);
+  const tagInput = screen.getByTestId(TAG_INPUT);
+
+  expect(currencyInput);
 });

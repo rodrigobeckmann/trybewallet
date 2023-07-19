@@ -1,10 +1,7 @@
 import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import Wallet from '../pages/Wallet';
-import { fetchCurrency } from '../redux/actions';
-import user from '../redux/reducers/user';
 
 const VALUE_INPUT = 'value-input';
 const DESCRIPTION_INPUT = 'description-input';
@@ -36,14 +33,14 @@ test('2- Verifica se a tela possui os headers esperados', () => {
 test('3- Verifica se é possivel digitar informações nos inputs de texto', async () => {
   renderWithRouterAndRedux(<Wallet />);
 
-  const valueInput = screen.getByTestId('value-input');
-  const descriptionInput = screen.getByTestId('description-input');
+  const valueInput = screen.getByTestId(VALUE_INPUT);
+  const descriptionInput = screen.getByTestId(DESCRIPTION_INPUT);
 
   await userEvent.type(valueInput, '50');
   await userEvent.type(descriptionInput, 'bananas');
 
   expect(screen.getByTestId(VALUE_INPUT)).toHaveValue('50');
-  expect(screen.getByTestId(DESCRIPTION_INPUT)).toHaveValue('bananas');
+  expect(descriptionInput).toHaveValue('bananas');
 });
 
 test('4- Verifica se apos clicar em adcionar reseta os campos de input', async () => {
@@ -53,15 +50,16 @@ test('4- Verifica se apos clicar em adcionar reseta os campos de input', async (
   const descriptionInput = screen.getByTestId('description-input');
 
   const sendBtn = screen.getByRole('button', { name: 'Adicionar despesa' });
+  const descInput = screen.getByTestId(DESCRIPTION_INPUT);
 
   await userEvent.type(valueInput, '50');
   await userEvent.type(descriptionInput, 'bananas');
 
   expect(screen.getByTestId(VALUE_INPUT)).toHaveValue('50');
-  expect(screen.getByTestId(DESCRIPTION_INPUT)).toHaveValue('bananas');
+  expect(descInput).toHaveValue('bananas');
 
   await userEvent.click(sendBtn);
 
   expect(screen.getByTestId(VALUE_INPUT)).toHaveValue('');
-  expect(screen.getByTestId(DESCRIPTION_INPUT)).toHaveValue('');
+  expect(descInput).toHaveValue('');
 });

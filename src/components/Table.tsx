@@ -23,9 +23,9 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {expenses.map((expense) => {
-          const convertedValue = parseFloat(expense.value
-            * expense.exchangeRates[expense.currency].ask);
+        {expenses.map((expense: any) => {
+          const convertedValue = parseFloat(expense.value)
+            * parseFloat(expense.exchangeRates[expense.currency].ask);
 
           const exchange = (parseFloat(expense.exchangeRates[expense.currency].ask))
             .toFixed(2);

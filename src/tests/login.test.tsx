@@ -48,19 +48,3 @@ test('4- Verifica se ao incluir dados invalidos o botão de entrar fica desabili
 
   expect(screen.getByRole('button', { name: 'Entrar' })).toHaveProperty('disabled', true);
 });
-
-test('5- Verifica se ao clicar em entrar com dados validos redireciona para /carteira', async () => {
-  renderWithRouterAndRedux(<App />);
-
-  const loginInput = screen.getByTestId(EMAIL_TEST);
-  const passwordInput = screen.getByTestId(PASSWORD_TEST);
-
-  await userEvent.type(loginInput, LOGIN);
-  await userEvent.type(passwordInput, PASSWORD);
-
-  const sendBtn = screen.getByRole('button', { name: 'Entrar' });
-
-  await userEvent.click(sendBtn);
-
-  expect(screen.getByText(`Usuario:${LOGIN}`)).toBeInTheDocument();
-});

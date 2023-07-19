@@ -7,7 +7,7 @@ const INITIAL_WALLET = {
   value: '',
   description: '',
   currency: 'USD',
-  method: 'cash',
+  method: 'Dinheiro',
   tag: 'Alimentação',
 };
 

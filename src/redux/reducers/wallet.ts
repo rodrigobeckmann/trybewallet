@@ -24,12 +24,12 @@ export default (state = INITIAL_STATE, action: AnyAction) => {
 
     case TOTAL_SUM: return {
       ...state,
-      total: state.total + action.payload,
+      total: state.total + parseFloat(action.payload.toFixed(2)),
     };
 
     case DELETE_EXPENSE: return {
       ...state,
-      total: state.total - action.updateValue,
+      total: state.total - parseFloat(action.updateValue.toFixed(2)),
       expenses: [...action.payload],
     };
 

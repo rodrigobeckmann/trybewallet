@@ -45,3 +45,23 @@ test('3- Verifica se é possivel digitar informações nos inputs de texto', asy
   expect(screen.getByTestId(VALUE_INPUT)).toHaveValue('50');
   expect(screen.getByTestId(DESCRIPTION_INPUT)).toHaveValue('bananas');
 });
+
+test('4- Verifica se apos clicar em adcionar reseta os campos de input', async () => {
+  renderWithRouterAndRedux(<Wallet />);
+
+  const valueInput = screen.getByTestId('value-input');
+  const descriptionInput = screen.getByTestId('description-input');
+
+  const sendBtn = screen.getByRole('button', { name: 'Adicionar despesa' });
+
+  await userEvent.type(valueInput, '50');
+  await userEvent.type(descriptionInput, 'bananas');
+
+  expect(screen.getByTestId(VALUE_INPUT)).toHaveValue('50');
+  expect(screen.getByTestId(DESCRIPTION_INPUT)).toHaveValue('bananas');
+
+  await userEvent.click(sendBtn);
+
+  expect(screen.getByTestId(VALUE_INPUT)).toHaveValue('');
+  expect(screen.getByTestId(DESCRIPTION_INPUT)).toHaveValue('');
+});

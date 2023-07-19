@@ -12,7 +12,7 @@ function Header() {
         {email}
       </h1>
       <h2 data-testid="total-field">
-        {total}
+        {total.toFixed(2)}
       </h2>
       <h2 data-testid="header-currency-field">
         cambio utilizado: BRL

@@ -1,7 +1,8 @@
 import { AnyAction } from 'redux';
-import { FETCH_CURRENCIES, TOTAL_SUM, INCLUDE_EXPENSE } from '../actions';
+import { FETCH_CURRENCIES, TOTAL_SUM, INCLUDE_EXPENSE, DELETE_EXPENSE } from '../actions';
 
 const INITIAL_STATE = {
+  idCount: 0,
   total: 0,
   currencies: '',
   expenses: [],
@@ -15,14 +16,21 @@ export default (state = INITIAL_STATE, action: AnyAction) => {
     };
 
     case INCLUDE_EXPENSE: return {
+      idCount: state.idCount + 1,
       total: state.total,
       currencies: state.currencies,
-      expenses: [...state.expenses, { id: state.expenses.length, ...action.payload }],
+      expenses: [...state.expenses, { id: state.idCount, ...action.payload }],
     };
 
     case TOTAL_SUM: return {
       ...state,
       total: state.total + action.payload,
+    };
+
+    case DELETE_EXPENSE: return {
+      ...state,
+      total: state.total - action.updateValue,
+      expenses: [...action.payload],
     };
 
     default: return state;

@@ -8,6 +8,8 @@ export const INCLUDE_EXPENSE = 'INCLUDE_EXPENSE';
 
 export const TOTAL_SUM = 'TOTAL_SUM';
 
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+
 type ExpenseData = {
   value: string,
   description: string,
@@ -57,5 +59,21 @@ export function addExpense(expenseData: ExpenseData) {
       * data[expenseData.currency].ask).toFixed(2));
     dispatch(totalSum(valueToAdd));
     dispatch(includeExpense(fullObj));
+  };
+}
+
+export const deleteExpense = (expense: any, valueToRemove: number) => ({
+  type: DELETE_EXPENSE,
+  payload: expense,
+  updateValue: valueToRemove,
+});
+
+export function removeExpense(expenseId: number, expenses: any) {
+  return (dispatch: Dispatch) => {
+    const findValue = expenses.find((el: any) => el.id === expenseId);
+    const filtered = expenses.filter((el: any) => el.id !== expenseId);
+    const valueTo = parseFloat(findValue.exchangeRates[findValue.currency].ask)
+      * findValue.value;
+    dispatch(deleteExpense(filtered, valueTo));
   };
 }

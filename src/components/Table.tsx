@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootRedux, Dispatch } from '../types';
-import { removeExpense } from '../redux/actions';
+import { removeExpense, expenseEdit, ExpenseEditData } from '../redux/actions';
 
 function Table() {
   const dispatch: Dispatch = useDispatch();
@@ -23,7 +23,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {expenses.map((expense: any) => {
+        {expenses.map((expense: ExpenseEditData, index) => {
           const convertedValue = parseFloat(expense.value)
             * parseFloat(expense.exchangeRates[expense.currency].ask);
 
@@ -41,6 +41,12 @@ function Table() {
               <td>{convertedValue.toFixed(2)}</td>
               <td>Real</td>
               <td>
+                <button
+                  data-testid="edit-btn"
+                  onClick={ () => dispatch(expenseEdit({ expense, index })) }
+                >
+                  Editar
+                </button>
                 <button
                   data-testid="delete-btn"
                   onClick={ () => dispatch(removeExpense(expense.id, expenses)) }

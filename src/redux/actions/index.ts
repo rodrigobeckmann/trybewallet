@@ -10,12 +10,34 @@ export const TOTAL_SUM = 'TOTAL_SUM';
 
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
-type ExpenseData = {
+export const EXIT_EDIT = 'EXIT_EDIT';
+
+export const EXPENSE_EDIT = 'EXPENSE_EDIT';
+
+export const UPDATE_EXPENSES = 'UPDATE_EXPENSES';
+
+export type ExpenseData = {
   value: string,
   description: string,
   currency: string,
   method: string,
   tag: string,
+  exchangeRates?: any
+};
+
+export type ExpenseEditData = {
+  id: number,
+  value: string,
+  description: string,
+  currency: string,
+  method: string,
+  tag: string,
+  exchangeRates?: any
+};
+
+type ExpenseEdit = {
+  expense: ExpenseEditData,
+  index: number,
 };
 
 export const submitLogin = (loginData: string) => ({
@@ -77,3 +99,17 @@ export function removeExpense(expenseId: number, expenses: any) {
     dispatch(deleteExpense(filtered, valueTo));
   };
 }
+
+export const exitEdit = () => ({
+  type: EXIT_EDIT,
+});
+
+export const expenseEdit = ({ expense, index }: ExpenseEdit) => ({
+  type: EXPENSE_EDIT,
+  payload: { expense, index },
+});
+
+export const updateExpenses = (expenses: ExpenseEditData[]) => ({
+  type: UPDATE_EXPENSES,
+  payload: expenses,
+});

@@ -135,4 +135,5 @@ describe('Testa componente WalletForm', () => {
   //   expect(global.fetch).toBeCalledTimes(1);
   //   expect(store.getState()).toStrictEqual(EXPECTED_STATE);
   // });
+
 });

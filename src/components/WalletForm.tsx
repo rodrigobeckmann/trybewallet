@@ -1,7 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { RootRedux, Dispatch } from '../types';
-import { addExpense, updateExpenses, removeExpense, totalSum } from '../redux/actions';
+import {
+  addExpense,
+  updateExpenses,
+  removeExpense,
+  totalSum,
+  exitEdit,
+} from '../redux/actions';
 
 const INITIAL_WALLET = {
   value: '',
@@ -38,6 +44,7 @@ function WalletForm() {
       * parseFloat(walletData.value));
     dispatch(updateExpenses(oldData));
     dispatch(totalSum(newValue));
+    dispatch(exitEdit());
   };
 
   useEffect(() => {

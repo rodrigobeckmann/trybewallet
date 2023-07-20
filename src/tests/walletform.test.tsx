@@ -56,6 +56,19 @@ const EXPECTED_STATE = {
         exchangeRates: resolvedData,
       }],
   },
+  walletEdit: {
+    isEdit: false,
+    index: 0,
+    expense: {
+      id: 0,
+      value: '',
+      description: '',
+      currency: '',
+      method: '',
+      tag: '',
+      exchangeRates: {},
+    },
+  },
 };
 
 describe('Testa componente WalletForm', () => {
@@ -114,25 +127,25 @@ describe('Testa componente WalletForm', () => {
     expect(tagInput).toHaveValue(tag);
   });
 
-  // test('3- verifica se ao clicar no botar adicionar, os valores dos inputs são adicionados ao estado global', async () => {
-  //   const { store } = renderWithRouterAndRedux(<Wallet />, { initialState: INITIAL_STATE });
+  test('3- verifica se ao clicar no botar adicionar, os valores dos inputs são adicionados ao estado global', async () => {
+    const { store } = renderWithRouterAndRedux(<Wallet />, { initialState: INITIAL_STATE });
 
-  //   const valueInput = screen.getByTestId(VALUE_INPUT);
-  //   const descriptionInput = screen.getByTestId(DESCRIPTION_INPUT);
-  //   const currencyInput = screen.getByTestId(CURRENCY_INPUT);
-  //   const methodInput = screen.getByTestId(METHOD_INPUT);
-  //   const tagInput = screen.getByTestId(TAG_INPUT);
-  //   const sendBtn = screen.getByRole('button', { name: 'Adicionar despesa' });
+    const valueInput = screen.getByTestId(VALUE_INPUT);
+    const descriptionInput = screen.getByTestId(DESCRIPTION_INPUT);
+    const currencyInput = screen.getByTestId(CURRENCY_INPUT);
+    const methodInput = screen.getByTestId(METHOD_INPUT);
+    const tagInput = screen.getByTestId(TAG_INPUT);
+    const sendBtn = screen.getByRole('button', { name: 'Adicionar despesa' });
 
-  //   await userEvent.type(valueInput, valueSpent);
-  //   await userEvent.type(descriptionInput, valueDescription);
-  //   await userEvent.selectOptions(currencyInput, coin);
-  //   await userEvent.selectOptions(methodInput, method);
-  //   await userEvent.selectOptions(tagInput, tag);
+    await userEvent.type(valueInput, valueSpent);
+    await userEvent.type(descriptionInput, valueDescription);
+    await userEvent.selectOptions(currencyInput, coin);
+    await userEvent.selectOptions(methodInput, method);
+    await userEvent.selectOptions(tagInput, tag);
 
-  //   await userEvent.click(sendBtn);
+    await userEvent.click(sendBtn);
 
-  //   expect(global.fetch).toBeCalledTimes(1);
-  //   expect(store.getState()).toStrictEqual(EXPECTED_STATE);
-  // });
+    expect(global.fetch).toBeCalledTimes(1);
+    expect(store.getState()).toStrictEqual(EXPECTED_STATE);
+  });
 });

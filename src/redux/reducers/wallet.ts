@@ -35,5 +35,4 @@ export default (state = INITIAL_STATE, action: AnyAction) => {
 
     default: return state;
   }
-  return state;
 };

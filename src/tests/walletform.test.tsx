@@ -1,4 +1,4 @@
-import { cleanup, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
@@ -6,7 +6,6 @@ import App from '../App';
 import mockData from './helpers/mockData';
 import mockArray from './helpers/mockArray';
 import Wallet from '../pages/Wallet';
-import user from '../redux/reducers/user';
 import resolvedData from './helpers/resolvedData';
 
 const LOGIN = 'user@email.com';
@@ -31,10 +30,6 @@ const INITIAL_STATE = {
     expenses: [],
   },
 };
-
-global.fetch = vi.fn().mockResolvedValue({
-  json: async () => (mockData),
-});
 
 const valueSpent = '50';
 const valueDescription = 'banana';
@@ -64,6 +59,16 @@ const EXPECTED_STATE = {
 };
 
 describe('Testa componente WalletForm', () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  beforeEach(() => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => (mockData),
+    });
+  });
+
   test('1- Verifica se ao clicar em entrar com dados validos redireciona para /carteira', async () => {
     renderWithRouterAndRedux(<App />);
 
@@ -89,7 +94,6 @@ describe('Testa componente WalletForm', () => {
     expect(screen.getByTestId('email-field')).toHaveTextContent(`Usuario:${LOGIN}`);
     expect(screen.getByTestId('total-field')).toHaveTextContent('0.00');
     expect(screen.getByTestId('header-currency-field')).toHaveTextContent('cambio utilizado: BRL');
-    expect(global.fetch).toBeCalledTimes(1);
 
     const valueInput = screen.getByTestId(VALUE_INPUT);
     const descriptionInput = screen.getByTestId(DESCRIPTION_INPUT);
@@ -99,9 +103,9 @@ describe('Testa componente WalletForm', () => {
 
     await userEvent.type(valueInput, valueSpent);
     await userEvent.type(descriptionInput, valueDescription);
-    await userEvent.type(currencyInput, coin);
-    await userEvent.type(methodInput, method);
-    await userEvent.type(tagInput, tag);
+    await userEvent.selectOptions(currencyInput, coin);
+    await userEvent.selectOptions(methodInput, method);
+    await userEvent.selectOptions(tagInput, tag);
 
     expect(valueInput).toHaveValue(valueSpent);
     expect(descriptionInput).toHaveValue(valueDescription);
@@ -123,21 +127,12 @@ test('3- verifica se ao clicar no botar adicionar, os valores dos inputs são ad
 
   await userEvent.type(valueInput, valueSpent);
   await userEvent.type(descriptionInput, valueDescription);
-  await userEvent.type(currencyInput, coin);
-  await userEvent.type(methodInput, method);
-  await userEvent.type(tagInput, tag);
+  await userEvent.selectOptions(currencyInput, coin);
+  await userEvent.selectOptions(methodInput, method);
+  await userEvent.selectOptions(tagInput, tag);
 
   await userEvent.click(sendBtn);
 
+  expect(global.fetch).toBeCalledTimes(1);
   expect(store.getState()).toStrictEqual(EXPECTED_STATE);
-});
-
-test('4- verifica se os inputs de select funcionam como esperado', async () => {
-  renderWithRouterAndRedux(<Wallet />, { initialState: INITIAL_STATE });
-
-  const currencyInput = screen.getByTestId(CURRENCY_INPUT);
-  const methodInput = screen.getByTestId(METHOD_INPUT);
-  const tagInput = screen.getByTestId(TAG_INPUT);
-
-  expect(currencyInput);
 });

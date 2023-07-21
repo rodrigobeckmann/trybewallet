@@ -36,7 +36,8 @@ export default (state = INITIAL_STATE, action: AnyAction) => {
 
     case DELETE_EXPENSE: return {
       ...state,
-      total: state.total - parseFloat(action.updateValue.toFixed(2)),
+      total: parseFloat(state.total.toFixed(2))
+        - parseFloat(action.updateValue.toFixed(2)),
       expenses: [...action.payload],
     };
 

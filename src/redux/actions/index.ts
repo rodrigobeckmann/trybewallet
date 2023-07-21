@@ -77,8 +77,8 @@ export function addExpense(expenseData: ExpenseData) {
     const data = await response.json();
     delete data.USDT;
     const fullObj = { ...expenseData, exchangeRates: data };
-    const valueToAdd = ((parseFloat(expenseData.value)
-      * data[expenseData.currency].ask));
+    const valueToAdd = (parseFloat(expenseData.value)
+      * data[expenseData.currency].ask);
     dispatch(totalSum(valueToAdd));
     dispatch(includeExpense(fullObj));
   };

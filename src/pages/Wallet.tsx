@@ -9,12 +9,6 @@ import { RootRedux } from '../types';
 function Wallet() {
   const navigate = useNavigate();
 
-  const { email } = useSelector((state: RootRedux) => state.user);
-
-  useEffect(() => {
-    if (email === '') navigate('/');
-  }, []);
-
   return (
     <>
       <Header />
